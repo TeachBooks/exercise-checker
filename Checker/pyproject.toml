@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "checker"
+description = "Package of widget to check answers in the book"
+authors = [ 
+    {name = "Federico Raimondi", email = "F.Raimondi@student.tudelft.nl"},
+    {name = "Robert Lanzafame", email = "R.C.Lanzafame@tudelft.nl"},
+    {name = "Tom van Woudenberg", email = "T.R.vanWoudenberg@tudelft.nl"},
+]
+dependencies = ["numpy", "pandas", "matplotlib", "IPython", "math" ]
