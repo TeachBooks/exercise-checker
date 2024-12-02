@@ -10,4 +10,4 @@ authors = [
     {name = "Robert Lanzafame", email = "R.C.Lanzafame@tudelft.nl"},
     {name = "Tom van Woudenberg", email = "T.R.vanWoudenberg@tudelft.nl"},
 ]
-dependencies = ["numpy", "pandas", "matplotlib", "IPython", "math" ]
+dependencies = ["numpy", "pandas", "matplotlib", "IPython", "math", "ipywidgets" ]
