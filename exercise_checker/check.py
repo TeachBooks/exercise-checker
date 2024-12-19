@@ -17,34 +17,34 @@ def check(f):
 	return wrapper
 
 @check
-def check_example(glob, dict):
-    check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=dict["tolerance"])
+def check_example(glob, ex):
+    check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=ex["tolerance"])
     check_string = lambda a,b: a == b
     
-    if not dict:
+    if not ex:
         print("Empty exercise.")
         return
 
-    elif dict["type"] == "values":
+    elif ex["type"] == "values":
 
         # Initialize result as an empty list
         result = []
-        for i in range(len(dict["values"])):
+        for i in range(len(ex["values"])):
             # Access global variables dynamically
-            result.append(glob[dict["variables"][i]])
+            result.append(glob[ex["variables"][i]])
             
             # Check if the values match within tolerance
-            if check_float(result[i], dict["values"][i]):
-                print(f"You got the parameter '{dict['variables'][i]}' right, well done! (checked with tolerance {dict['tolerance']})")
+            if check_float(result[i], ex["values"][i]):
+                print(f"You got the parameter '{ex['variables'][i]}' right, well done! (checked with tolerance {ex['tolerance']})")
             else:
-                print(f"The parameter '{dict['variables'][i]}' is incorrect. (checked with tolerance {dict['tolerance']})")
+                print(f"The parameter '{ex['variables'][i]}' is incorrect. (checked with tolerance {ex['tolerance']})")
                 print("          Other parts won't be graded until these are fixed.")
                 return
             
-    elif dict["type"] == "function":
-        function = glob[dict["name"]]
+    elif ex["type"] == "function":
+        function = glob[ex["name"]]
 	
-        test_inputs = dict["inputs"]
+        test_inputs = ex["inputs"]
         failed = []
 
         for x, out in test_inputs:
@@ -53,28 +53,28 @@ def check_example(glob, dict):
                 failed.append((x, out, result))
 
         if len(failed) == 0:
-            print(f"Well done, your function is correct! (checked with tolerance {dict['tolerance']})")	
+            print(f"Well done, your function is correct! (checked with tolerance {ex['tolerance']})")	
         else:
-            print(f"Your function failed some tests. Keep in mind the tolerance is {dict['tolerance']}")
+            print(f"Your function failed some tests. Keep in mind the tolerance is {ex['tolerance']}")
             print("    --> Failed inputs:")
             for case in failed:
                 print(f"{case[0]} gave {case[2]}, expected {case[1]}")
             print(f"      Other parts won't be graded until these are fixed.")
             return
         
-    elif dict["type"] == "strings":
+    elif ex["type"] == "strings":
 
         # Initialize string as an empty list
         result = []
-        for i in range(len(dict["values"])):
+        for i in range(len(ex["values"])):
             # Access global variables dynamically
-            result.append(glob[dict["variables"][i]])
+            result.append(glob[ex["variables"][i]])
             
             # Check if the strings match
-            if check_string(result[i], dict["values"][i]):
-                print(f"You got the string '{dict['variables'][i]}' right, well done!")
+            if check_string(result[i], ex["values"][i]):
+                print(f"You got the string '{ex['variables'][i]}' right, well done!")
             else:
-                print(f"The string '{dict['variables'][i]}' is incorrect.")
+                print(f"The string '{ex['variables'][i]}' is incorrect.")
                 print("          Ensure proper capitalization is used where necessary.")
                 print("          Other parts won't be graded until these are fixed.")
                 return
