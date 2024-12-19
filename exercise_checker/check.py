@@ -44,10 +44,10 @@ def check_exercise(glob, ex):
     elif ex["type"] == "function":
         function = glob[ex["name"]]
 	
-        test_inputs = ex["inputs"]
+        tests = ex["tests"]
         failed = []
 
-        for x, out in test_inputs:
+        for x, out in tests:
             result = function(x)
             if not check_float(result, out):
                 failed.append((x, out, result))
