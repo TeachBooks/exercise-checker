@@ -1,5 +1,6 @@
 from IPython.display import display
 import ipywidgets as widgets
+from math import isclose
 
 def check(f):
 	def wrapper(*args, **kwargs):
@@ -14,3 +15,61 @@ def check(f):
 		button.on_click(_inner_check)
 		display(button, output)
 	return wrapper
+
+@check
+def check_example(glob, dict):
+    check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=dict["tolerance"])
+    check_string = lambda a,b: a == b
+    if dict["exercise"] == "checking values":
+
+        # Initialize result as an empty list
+        result = []
+        for i in range(len(dict["values"])):
+            # Access global variables dynamically
+            result.append(glob[dict["variables"][i]])
+            
+            # Check if the values match within tolerance
+            if check_float(result[i], dict["values"][i]):
+                print(f"You got the parameter '{dict['variables'][i]}' right, well done! (checked with tolerance {dict['tolerance']})")
+            else:
+                print(f"The parameter '{dict['variables'][i]}' is incorrect. (checked with tolerance {dict['tolerance']})")
+                print("          Other parts won't be graded until these are fixed.")
+                return
+            
+    if dict["exercise"] == "checking function":
+        function = glob[dict["function"]]
+	
+        test_inputs = dict["inputs"]
+        failed = []
+
+        for x, out in test_inputs:
+            result = function(x)
+            if not check_float(result, out):
+                failed.append((x, out, result))
+
+        if len(failed) == 0:
+            print(f"Well done, your function is correct! (checked with tolerance {dict['tolerance']})")	
+        else:
+            print(f"Your function failed some tests. Keep in mind the tolerance is {dict['tolerance']}")
+            print("    --> Failed inputs:")
+            for case in failed:
+                print(f"{case[0]} gave {case[2]}, expected {case[1]}")
+            print(f"      Other parts won't be graded until these are fixed.")
+            return
+        
+    if dict["exercise"] == "checking strings":
+
+        # Initialize string as an empty list
+        result = []
+        for i in range(len(dict["values"])):
+            # Access global variables dynamically
+            result.append(glob[dict["variables"][i]])
+            
+            # Check if the strings match
+            if check_string(result[i], dict["values"][i]):
+                print(f"You got the string '{dict['variables'][i]}' right, well done!")
+            else:
+                print(f"The string '{dict['variables'][i]}' is incorrect.")
+                print("          Ensure proper capitalization is used where necessary.")
+                print("          Other parts won't be graded until these are fixed.")
+                return
