@@ -42,7 +42,7 @@ def check_example(glob, dict):
                 return
             
     elif dict["type"] == "function":
-        function = glob[dict["function"]]
+        function = glob[dict["name"]]
 	
         test_inputs = dict["inputs"]
         failed = []
