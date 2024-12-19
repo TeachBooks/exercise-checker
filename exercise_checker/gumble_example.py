@@ -1,4 +1,4 @@
-from grading import check
+from exercise_checker.check import check
 from math import isclose
 
 tolerance = 0.001
