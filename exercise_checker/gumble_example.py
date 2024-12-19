@@ -1,9 +1,9 @@
-from grading import check
+from exercise_checker.check import check
 from math import isclose
 
 tolerance = 0.001
 
-# Using rel_tol is more reliable in the face of aliasing, but to fit the instructions give we use abs_total
+# Using rel_tol is more reliable in the face of aliasing, but to fit the instructions given we use abs_total
 check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=tolerance)
 
 # We have to pass in the globals object since we need to have access to changes as well
