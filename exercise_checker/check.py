@@ -25,7 +25,7 @@ def check_example(glob, dict):
         print("Empty exercise.")
         return
 
-    elif dict["exercise"] == "checking values":
+    elif dict["type"] == "values":
 
         # Initialize result as an empty list
         result = []
@@ -41,7 +41,7 @@ def check_example(glob, dict):
                 print("          Other parts won't be graded until these are fixed.")
                 return
             
-    elif dict["exercise"] == "checking function":
+    elif dict["type"] == "function":
         function = glob[dict["function"]]
 	
         test_inputs = dict["inputs"]
@@ -62,7 +62,7 @@ def check_example(glob, dict):
             print(f"      Other parts won't be graded until these are fixed.")
             return
         
-    elif dict["exercise"] == "checking strings":
+    elif dict["type"] == "strings":
 
         # Initialize string as an empty list
         result = []
