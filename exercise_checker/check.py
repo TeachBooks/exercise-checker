@@ -17,7 +17,7 @@ def check(f):
 	return wrapper
 
 @check
-def check_example(glob, ex):
+def check_exercise(glob, ex):
     check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=ex["tolerance"])
     check_string = lambda a,b: a == b
     
