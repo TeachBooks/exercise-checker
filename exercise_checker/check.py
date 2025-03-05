@@ -20,6 +20,7 @@ def check(f):
 def check_exercise(glob, ex):
     check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=ex["tolerance"])
     check_string = lambda a,b: a == b
+    check_type = lambda a, b: isinstance(a, b)
     
     if not ex:
         print("Empty exercise.")
@@ -76,5 +77,18 @@ def check_exercise(glob, ex):
             else:
                 print(f"The string '{ex['variables'][i]}' is incorrect.")
                 print("          Ensure proper capitalization is used where necessary.")
+                print("          Other parts won't be graded until these are fixed.")
+                return
+    elif ex["type"] == "values_type":
+        
+        for i in range(len(ex["variables"])):
+            var_name = ex["variables"][i]
+            expected_type = ex["values_type"][i]  # This should store actual type objects like int, str, float, etc.
+            actual_value = glob[var_name]
+            
+            if check_type(actual_value, expected_type):
+                print(f"The type of '{var_name}' is correct, well done!")
+            else:
+                print(f"The type of '{var_name}' is incorrect. Expected {expected_type.__name__}, but got {type(actual_value).__name__}.")
                 print("          Other parts won't be graded until these are fixed.")
                 return
