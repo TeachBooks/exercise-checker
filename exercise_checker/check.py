@@ -3,23 +3,64 @@ import ipywidgets as widgets
 from math import isclose
 
 def check(f):
-	def wrapper(*args, **kwargs):
-		output = widgets.Output()
-		button = widgets.Button(description="Check Answer(s)")
-		@output.capture(clear_output=True,wait=True)
-		def _inner_check(button):
-			try:	
-				f(*args, **kwargs)
-			except:
-				print("Something went wrong, have you filled all the functions and run the cells?")
-		button.on_click(_inner_check)
-		display(button, output)
-	return wrapper
+    """
+    A decorator that wraps a function to provide a button and output widget for checking answers.
+
+    Parameters
+    ----------
+    f : function
+        The function to be wrapped.
+
+    Returns
+    -------
+    function
+        The wrapped function with a button and output widget.
+    """
+    def wrapper(*args, **kwargs):
+        output = widgets.Output()
+        button = widgets.Button(description="Check Answer(s)")
+        @output.capture(clear_output=True, wait=True)
+        def _inner_check(button):
+            try:
+                f(*args, **kwargs)
+            except:
+                print("Something went wrong, have you filled all the functions and run the cells?")
+        button.on_click(_inner_check)
+        display(button, output)
+    return wrapper
 
 @check
 def check_exercise(glob, ex):
+    """
+    Checks the exercise based on the provided global variables and exercise specifications.
+
+    Parameters
+    ----------
+    glob : dict
+        A dictionary containing the global variables.
+    ex : dict
+        A dictionary containing the exercise specifications. It should have the following keys:
+        - type : str
+            The type of exercise. Can be "values", "function", "strings", or "values_type".
+        - tolerance : float, optional
+            The tolerance for checking float values (only for "values" and "function" types).
+        - variables : list of str, optional
+            The list of variable names to check (only for "values" and "strings" types).
+        - values : list, optional
+            The list of expected values (only for "values" and "strings" types).
+        - name : str, optional
+            The name of the function to check (only for "function" type).
+        - tests : list of tuples, optional
+            The list of test cases for the function (only for "function" type).
+        - values_type : list of types, optional
+            The list of expected types for the variables (only for "values_type" type).
+
+    Returns
+    -------
+    None
+    """
     check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=ex["tolerance"])
-    check_string = lambda a,b: a == b
+    check_string = lambda a, b: a == b
     check_type = lambda a, types: any(isinstance(a, t) for t in types)
     
     if not ex:
@@ -44,7 +85,7 @@ def check_exercise(glob, ex):
             
     elif ex["type"] == "function":
         function = glob[ex["name"]]
-	
+    
         tests = ex["tests"]
         failed = []
 
@@ -54,7 +95,7 @@ def check_exercise(glob, ex):
                 failed.append((x, out, result))
 
         if len(failed) == 0:
-            print(f"Well done, your function is correct! (checked with tolerance {ex['tolerance']})")	
+            print(f"Well done, your function is correct! (checked with tolerance {ex['tolerance']})")    
         else:
             print(f"Your function failed some tests. Keep in mind the tolerance is {ex['tolerance']}")
             print("    --> Failed inputs:")
