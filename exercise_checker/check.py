@@ -2,6 +2,9 @@ from IPython.display import display
 import ipywidgets as widgets
 from math import isclose
 
+import ipywidgets as widgets
+from IPython.display import display
+
 def check(f):
     """
     A decorator that wraps a function to provide a button and output widget for checking answers.
@@ -18,16 +21,26 @@ def check(f):
     """
     def wrapper(*args, **kwargs):
         output = widgets.Output()
-        button = widgets.Button(description="Check Answer(s)")
+
+        ex = kwargs.get("ex", {})
+
+        # Get the button description key from ex (assuming it's in 'button description')
+        button_text= ex.get("button_description", "Check Answer(s)")
+        button = widgets.Button(description=button_text)
+
         @output.capture(clear_output=True, wait=True)
         def _inner_check(button):
             try:
                 f(*args, **kwargs)
-            except:
-                print("Something went wrong, have you filled all the functions and run the cells?")
+            except Exception as e:
+                print(f"Something went wrong: {e}")
+
         button.on_click(_inner_check)
         display(button, output)
+
     return wrapper
+
+
 
 @check
 def check_exercise(glob, ex):
