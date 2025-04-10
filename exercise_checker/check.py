@@ -72,7 +72,9 @@ def check_exercise(glob, ex):
     -------
     None
     """
-    check_float = lambda a, b: isclose(a, b, rel_tol=0, abs_tol=ex["tolerance"])
+    check_float = lambda a, b, c: isclose(a, b, rel_tol=0, abs_tol = c)
+    check_float_limits_incl = lambda a, c: a >= c[0] and a <= c[1]
+    check_float_limits_excl = lambda a, c: a > c[0] and a < c[1]
     check_string = lambda a, b: a == b
     check_type = lambda a, types: any(isinstance(a, t) for t in types)
     
@@ -89,11 +91,48 @@ def check_exercise(glob, ex):
             result.append(glob[ex["variables"][i]])
         for j in range(len(result)):
             # Check if the values match within tolerance
-            if check_float(result[j], ex["values"][j]):
-                print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with tolerance {ex['tolerance']})")
+            if isinstance(ex["tolerance"], (int, float)) or isinstance(ex["tolerance"], list):
+                tolerance = ex["tolerance"] if isinstance(ex["tolerance"], (int, float)) else ex["tolerance"][j]
+                if check_float(result[j], ex["values"][j], tolerance):
+                    print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with tolerance {tolerance})")
+                else:
+                    print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with tolerance {tolerance})")
+                    print("          Other parts won't be graded until these are fixed.")
+
+            elif ex["tolerance"]["type"] == "absolute":
+                tolerance_value = ex["tolerance"]["value"][j] if isinstance(ex["tolerance"]["value"], list) else ex["tolerance"]["value"]
+                if check_float(result[j], ex["values"][j], tolerance_value):
+                    print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with absolute tolerance {tolerance_value})")
+                else:
+                    print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with absolute tolerance {tolerance_value})")
+                    print("          Other parts won't be graded until these are fixed.")
+
+            elif ex["tolerance"]["type"] == "limits":
+                # Ensure tolerance_limits is a tuple for each variable
+                tolerance_limits = ex["tolerance"]["value"][j] if isinstance(ex["tolerance"]["value"][0], (list, tuple)) else ex["tolerance"]["value"]
+                if ex["tolerance"].get("condition", "inclusive") == "inclusive":
+                    if check_float_limits_incl(result[j], tolerance_limits):
+                        print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with inclusive limits {tolerance_limits})")
+                    else:
+                        print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with inclusive limits {tolerance_limits})")
+                        print("          Other parts won't be graded until these are fixed.")
+                elif ex["tolerance"]["condition"] == "exclusive":
+                    if check_float_limits_excl(result[j], tolerance_limits):
+                        print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with exclusive limits {tolerance_limits})")
+                    else:
+                        print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with exclusive limits {tolerance_limits})")
+                        print("          Other parts won't be graded until these are fixed.")
+
+            elif ex["tolerance"]["type"] == "relative":
+                relative_tolerance = ex["tolerance"]["value"][j] if isinstance(ex["tolerance"]["value"], list) else ex["tolerance"]["value"]
+                if isclose(result[j], ex["values"][j], rel_tol=relative_tolerance):
+                    print(f"You got the parameter '{ex['variables'][j]}' right, well done! (checked with relative tolerance {relative_tolerance})")
+                else:
+                    print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with relative tolerance {relative_tolerance})")
+                    print("          Other parts won't be graded until these are fixed.")
+            
             else:
-                print(f"The parameter '{ex['variables'][j]}' is incorrect. {result[j]} (checked with tolerance {ex['tolerance']})")
-                print("          Other parts won't be graded until these are fixed.")
+                print("Unknown tolerance type. Please check the exercise specification.")
                 return
             
     elif ex["type"] == "function":
@@ -104,7 +143,7 @@ def check_exercise(glob, ex):
 
         for x, out in tests:
             result = function(x)
-            if not check_float(result, out):
+            if not check_float(result, out, ex["tolerance"]):
                 failed.append((x, out, result))
 
         if len(failed) == 0:
