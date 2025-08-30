@@ -51,6 +51,16 @@ Each notebook contains cells that set up the development environment properly:
 - autoreload allows the module to be edited and reloaded in the notebook environment without restarting the kernel
 - the `exercise_checker` directory is added to the system path to allow conventional importing of the module 
 
+### Python Environment
+
+If using VS Code, a development environment can be created as follows:
+
+```bash
+pip install -e .[dev]
+```
+
+Leave off the `[dev]` if not using VS Code (i.e., `pip install -e .`). Note that the editable mode on Windows can sometimes be very slow; if so, leave this option out (development can still be carried out using notebooks only with `autoreload`).
+
 ## Unprocessed Notes
 
 _These are the notes from Robert/Federico's meeting in November._

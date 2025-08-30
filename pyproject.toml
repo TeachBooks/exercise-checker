@@ -3,11 +3,24 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "checker"
-description = "Package of widget to check answers in the book"
+name = "exercise-checker"
+dynamic=["version"]
+description = "Python widget to create exercises and check answers with a button in a Jupyter Book (Notebook page)."
 authors = [ 
     {name = "Federico Raimondi", email = "F.Raimondi@student.tudelft.nl"},
     {name = "Robert Lanzafame", email = "R.C.Lanzafame@tudelft.nl"},
     {name = "Tom van Woudenberg", email = "T.R.vanWoudenberg@tudelft.nl"},
 ]
-dependencies = ["numpy", "pandas", "matplotlib", "IPython", "math", "ipywidgets" ]
+dependencies = ["numpy", "pandas", "matplotlib", "IPython", "ipywidgets" ]
+
+[tool.setuptools]
+packages = ["exercise_checker"]
+
+[project.optional-dependencies]
+vsc = [
+  "jupyter",
+  "ipykernel"
+]
+dev = [
+  "exercise-checker[vsc]"
+]
