@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "exercise-checker"
 dynamic=["version"]
-description = "Python widget to create exercises and check answers with a button in a Jupyter Book (Notebook page)."
+description = "A tool to easily create exercises check answers with a button in a Jupyter Notebook and Jupyter Book."
 authors = [ 
     {name = "Federico Raimondi", email = "F.Raimondi@student.tudelft.nl"},
     {name = "Robert Lanzafame", email = "R.C.Lanzafame@tudelft.nl"},
