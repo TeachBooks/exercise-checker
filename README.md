@@ -1,11 +1,25 @@
 # Exercise Checker
 
-The *Checker* package is designed to streamline the creation and evaluation of exercises in Jupyter notebooks, and is in particular designed for use as on a page within a Jupyter Book. Teachers can define exercises using a dictionary in a notebook cell, ensuring a simple and intuitive setup. Once the *Checker* package is imported, it generates all necessary checking functions automatically, enabling seamless integration with the notebook. This approach minimizes the need for repetitive code, allowing educators to focus on content creation and providing students with an efficient and interactive learning experience.
+The *Exercise Checker* package is designed to streamline the creation and evaluation of exercises in Jupyter notebooks, and is in particular designed for use as on a page within a Jupyter Book. Teachers can define exercises using a dictionary in a notebook cell, ensuring a simple and intuitive setup. Once the *Checker* package is imported, it generates all necessary checking functions automatically, enabling seamless integration with the notebook. This approach minimizes the need for writing repetitive code, allowing educators to focus on content creation and providing students with an efficient and interactive learning experience. The tool is written in Python, the teacher defines the exericse using Python dictionaries and the student "submits" answers to be checked by writing Python and clicking the "check answer" button.
+
+This tool is designed with teachers in mind who are using the Python programming language to help students learn topics in science and engineering, in particular those who may not have a strong grasp on programming in general, or the Python language specifically. It is possible to provide feedback and hints via the "check answer" button such that students focus on the topic of interest, and avoid students being distracted with Python errors (unless that is the intent of the activity or exercise). To make exercise creation as easy as possible, a teacher defines it using a Python dictionary only, along with a few simple lines of code.
+
+For now, the best way to understand this tool is to read the contents of `check.py` (documentation will be implemented later) and to look through the examples in the notebooks in the `development/` directory. Key features are:
+
+- easily define exercises and feedback using a Python dictionary
+- automatically create a "check answer" button (text on button is customizable)
+- customize feedback for right or wrong answers after pressing buttons (e.g., hints)
+- check various Python objects: numeric values, functions, strings, object type
+- check correct answers using various tolerance criteria (absolute, relative, inside/outside limits)
+- list allowed types for numeric value answers and (optionally) inform students of compliance via feedback
+
+## Usage
 
 First step is creating a decorator function `check` that will create the check answer button and allow the student to check their answer with the correct solution.
 
 This is the minimum usage of the tool, which will create a functional "check answer" button when run in a Jupyter notebook cell:
-```
+
+```python
 from exercise_checker.check import check_example
 exercise = {}
 check_example(globals(), exercise)
@@ -50,6 +64,16 @@ Each notebook contains cells that set up the development environment properly:
 
 - autoreload allows the module to be edited and reloaded in the notebook environment without restarting the kernel
 - the `exercise_checker` directory is added to the system path to allow conventional importing of the module 
+
+### Python Environment
+
+If using VS Code, a development environment can be created as follows:
+
+```bash
+pip install -e .[dev]
+```
+
+Leave off the `[dev]` if not using VS Code (i.e., `pip install -e .`). Note that the editable mode on Windows can sometimes be very slow; if so, leave this option out (development can still be carried out using notebooks only with `autoreload`).
 
 ## Unprocessed Notes
 
