@@ -1,5 +1,7 @@
 # Exercise Checker
 
+**Update, Aug 30, 2025:** _version `v1.0.0` is released and is ready for texting in educational settings! Until Issue #13 is completed, the Python files should be deployed in the same working directory as the book page in which they are used._
+
 The *Exercise Checker* package is designed to streamline the creation and evaluation of exercises in Jupyter notebooks, and is in particular designed for use as on a page within a Jupyter Book. Teachers can define exercises using a dictionary in a notebook cell, ensuring a simple and intuitive setup. Once the *Checker* package is imported, it generates all necessary checking functions automatically, enabling seamless integration with the notebook. This approach minimizes the need for writing repetitive code, allowing educators to focus on content creation and providing students with an efficient and interactive learning experience. The tool is written in Python, the teacher defines the exericse using Python dictionaries and the student "submits" answers to be checked by writing Python and clicking the "check answer" button.
 
 This tool is designed with teachers in mind who are using the Python programming language to help students learn topics in science and engineering, in particular those who may not have a strong grasp on programming in general, or the Python language specifically. It is possible to provide feedback and hints via the "check answer" button such that students focus on the topic of interest, and avoid students being distracted with Python errors (unless that is the intent of the activity or exercise). To make exercise creation as easy as possible, a teacher defines it using a Python dictionary only, along with a few simple lines of code.
@@ -13,7 +15,23 @@ For now, the best way to understand this tool is to read the contents of `check.
 - check correct answers using various tolerance criteria (absolute, relative, inside/outside limits)
 - list allowed types for numeric value answers and (optionally) inform students of compliance via feedback
 
+Anyone is encouranged to use this tool and provide feedback via GitHub Issues in this repository. The following developments will be made in parallel:
+
+1. Create and use new exercises (please let us know how by linking to your book in a GitHub Issue!).
+1. Example deployment and usage of exercises in a Jupyter Book/TeachBook (Issue #15).
+2. Set up documentation describing usage and example exercises (Issue #11).
+3. Set up PyPI releases (Issue #13).
+4. Implement testing framework (Issue #12).
+
+The original concept for this tool was created by Max Guichard in the summer of 2023 for use in the MUDE Textbook. Robert Lanzafame, as usual, came up with an infinite list of new features; luckily Federico Raimondi did an excellent job of translating these ideas into something practical and feasible, resulting in the dictionary-powered customizable implmentation released in `v1.0.0` (August, 2025).
+
 ## Usage
+
+There are two discting ways in which this tool is used: 1) creation of exercises, by the teacher, and 2) deployment of the exercises in a notebook setting, for interactive use with students.
+
+At the moment, the best way to develop an exercise is to clone this repository (or download the files) and use notebooks `00.ipynb` and `01.ipynb`. Once an exercise is ready, use notebook `02.ipynb` to help deploy it in your Juypter Book. Note that at the moment a working example in a book is not ready, so you may need to modify the code provided in this repo to get everything working smoothly in your book.
+
+### Creating Exercises
 
 First step is creating a decorator function `check` that will create the check answer button and allow the student to check their answer with the correct solution.
 
@@ -33,6 +51,14 @@ The conventional usage will be more like this:
 4. Run `check_example(globals(), exercise)` to create the "check answer" button
 
 In most applications this can be accomplished in three cells, where Items 1 and 2 can be combined in the first cell.
+
+### Deploying and Using Exercises with Students
+
+This tool is designed with the expectation that exercises (dictionaries) are used by students in an interactive setting with a notebook-based Python interpreter, specifically: a Jupyter Book page using the Sphinx-Thebe extension (see the [TeachBooks Manual page](https://teachbooks.io/manual/features/live_code.html)). This allows a teacher to easily hide the source files and/or exercise initialization code from the student (e.g., with custom cell tags).
+
+Until the PyPI deployment is ready, the code in `check.py` will need to be deployed within your book. This is roughly described in notebook `02.ipynb`.
+
+**Coming soon:** example book illustrating deployment and usage of the exercise checker.
 
 ## Repository Structure
 
@@ -74,6 +100,10 @@ pip install -e .[dev]
 ```
 
 Leave off the `[dev]` if not using VS Code (i.e., `pip install -e .`). Note that the editable mode on Windows can sometimes be very slow; if so, leave this option out (development can still be carried out using notebooks only with `autoreload`).
+
+### Releases
+
+Version `v1.0.0` was released in August, 2025 and uses semantic versioning. Only changes that alter the behavior of the exercise checker itself will advance the major version number (i.e., `v1` to `v2`). Improvements such as documentation pages, PyPI releases, etc, will advance the minor version number.
 
 ## Unprocessed Notes
 
