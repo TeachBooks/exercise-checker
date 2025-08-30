@@ -1,5 +1,7 @@
 # Exercise Checker
 
+**Update, Aug 30, 2025:** version `v1.0.0` is released and is ready for texting in educational settings!
+
 The *Exercise Checker* package is designed to streamline the creation and evaluation of exercises in Jupyter notebooks, and is in particular designed for use as on a page within a Jupyter Book. Teachers can define exercises using a dictionary in a notebook cell, ensuring a simple and intuitive setup. Once the *Checker* package is imported, it generates all necessary checking functions automatically, enabling seamless integration with the notebook. This approach minimizes the need for writing repetitive code, allowing educators to focus on content creation and providing students with an efficient and interactive learning experience. The tool is written in Python, the teacher defines the exericse using Python dictionaries and the student "submits" answers to be checked by writing Python and clicking the "check answer" button.
 
 This tool is designed with teachers in mind who are using the Python programming language to help students learn topics in science and engineering, in particular those who may not have a strong grasp on programming in general, or the Python language specifically. It is possible to provide feedback and hints via the "check answer" button such that students focus on the topic of interest, and avoid students being distracted with Python errors (unless that is the intent of the activity or exercise). To make exercise creation as easy as possible, a teacher defines it using a Python dictionary only, along with a few simple lines of code.
@@ -12,6 +14,15 @@ For now, the best way to understand this tool is to read the contents of `check.
 - check various Python objects: numeric values, functions, strings, object type
 - check correct answers using various tolerance criteria (absolute, relative, inside/outside limits)
 - list allowed types for numeric value answers and (optionally) inform students of compliance via feedback
+
+Anyone is encouranged to use this tool and provide feedback via GitHub Issues in this repository. The following developments will be made in parallel:
+
+1. Create and use new exercises (please let us know how by linking to your book in a GitHub Issue!).
+2. Set up documentation describing usage and example exercises (Issue #11).
+3. Set up PyPI releases (Issue #13).
+4. Implement testing framework (Issue #12).
+
+The original concept for this tool was created by Max Guichard in the summer of 2023 for use in the MUDE Textbook. Robert Lanzafame, as usual, came up with an infinite list of new features; luckily Federico Raimondi did an excellent job of translating these ideas into something practical and feasible, resulting in the dictionary-powered customizable implmentation released in `v1.0.0` (August, 2025).
 
 ## Usage
 
